@@ -22,9 +22,6 @@ public class CustomerCreditScore {
     @Column(name = "customer_id", nullable = false, unique = true)
     private Long customerId;
 
-    @Column(name = "application_id", nullable = false)
-    private Long applicationId;
-
     @Column(name = "credit_score", nullable = false)
     private Integer creditScore;
 

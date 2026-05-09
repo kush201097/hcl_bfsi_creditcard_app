@@ -7,8 +7,11 @@ import com.hcl.hackathon.creditservice.dto.CreditScoreResponse;
 import com.hcl.hackathon.creditservice.entity.CustomerCreditScore;
 import com.hcl.hackathon.creditservice.mapper.CreditScoreMapper;
 import com.hcl.hackathon.creditservice.repository.CustomerCreditScoreRepository;
+import feign.FeignException;
+import feign.RetryableException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,40 +24,43 @@ public class CreditScoreService {
     private final CardServiceClient cardServiceClient;
     private final CreditScoreMapper mapper;
 
-    @Transactional
     public CreditScoreResponse calculateOrFetch(CreditScoreRequest request) {
-        return repository.findByCustomerId(request.getCustomerId())
-                .map(entity -> {
-                    log.info("Credit score found in DB for customerId={}", request.getCustomerId());
-                    return mapper.toResponse(entity, "DB");
-                })
-                .orElseGet(() -> resolveFromCardService(request));
-    }
-
-    private CreditScoreResponse resolveFromCardService(CreditScoreRequest request) {
         try {
-
-
-            // Calculate credit score based on income and card count
-            int creditScore = calculateScore(request.getCurrentIncome(), request.getCustomerId());
-
-            CustomerCreditScore saved = repository.save(CustomerCreditScore.builder()
-                    .customerId(request.getCustomerId())
-                    .applicationId(request.getApplicationId())
-                    .creditScore(creditScore)
-                    .build());
-
-            log.info("Calculated credit score={} for customerId={} from card-service data", creditScore, request.getCustomerId());
-            return mapper.toResponse(saved, "CALCULATED");
-        } catch (Exception e) {
-            log.error("Error retrieving card data from card-service for customerId={}", request.getCustomerId(), e);
+            return repository.findByCustomerId(request.getCustomerId())
+                    .map(entity -> {
+                        log.info("Credit score found in DB for customerId={}", request.getCustomerId());
+                        return mapper.toResponse(entity, "DB");
+                    })
+                    .orElseGet(() -> resolveFromCardService(request));
+        } catch (FeignException e) {
+            log.error("Error retrieving card data from card-service for customerId={} and applicationId={} and Error={}",
+                    request.getCustomerId(), request.getApplicationId(), e.getMessage(), e);
             throw new BusinessException(
                     "Failed to retrieve credit card information for customerId: " + request.getCustomerId(),
                     "CARD_SERVICE_ERROR");
+        } catch (DataAccessException e) {
+            log.error("Error saving credit score for customerId={} and applicationId={} and Error={}",
+                    request.getCustomerId(), request.getApplicationId(), e.getMessage(), e);
+            throw new BusinessException(
+                    "Failed to persist credit score for customerId: " + request.getCustomerId(),
+                    "CREDIT_SCORE_PERSISTENCE_ERROR");
         }
     }
 
-    private int calculateScore(Double income, long customerId) {
+    private CreditScoreResponse resolveFromCardService(CreditScoreRequest request) {
+        // Calculate credit score based on income and card count
+        int creditScore = calculateScore(request.getCurrentIncome(), request.getCustomerId());
+
+        CustomerCreditScore saved = repository.save(CustomerCreditScore.builder()
+                .customerId(request.getCustomerId())
+                .creditScore(creditScore)
+                .build());
+
+        log.info("Calculated credit score={} for customerId={} from card-service data", creditScore, request.getCustomerId());
+        return mapper.toResponse(saved, "CALCULATED");
+    }
+
+    private int calculateScore(double income, long customerId) {
         if (income > 200_000) {
             return 500;
         }
