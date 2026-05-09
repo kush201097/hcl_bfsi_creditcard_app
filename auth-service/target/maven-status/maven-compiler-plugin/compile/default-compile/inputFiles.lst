@@ -1,1 +1,13 @@
+F:\Workspaces\hcl_hackathon\credit-card-application\auth-service\src\main\java\com\hcl\hackathon\authservice\controller\AuthController.java
+F:\Workspaces\hcl_hackathon\credit-card-application\auth-service\src\main\java\com\hcl\hackathon\authservice\dto\SignupRequest.java
 F:\Workspaces\hcl_hackathon\credit-card-application\auth-service\src\main\java\com\hcl\hackathon\authservice\AuthServiceApplication.java
+F:\Workspaces\hcl_hackathon\credit-card-application\auth-service\src\main\java\com\hcl\hackathon\authservice\entity\AuditEvent.java
+F:\Workspaces\hcl_hackathon\credit-card-application\auth-service\src\main\java\com\hcl\hackathon\authservice\repository\AuditEventRepository.java
+F:\Workspaces\hcl_hackathon\credit-card-application\auth-service\src\main\java\com\hcl\hackathon\authservice\entity\User.java
+F:\Workspaces\hcl_hackathon\credit-card-application\auth-service\src\main\java\com\hcl\hackathon\authservice\service\AuditService.java
+F:\Workspaces\hcl_hackathon\credit-card-application\auth-service\src\main\java\com\hcl\hackathon\authservice\service\AuthService.java
+F:\Workspaces\hcl_hackathon\credit-card-application\auth-service\src\main\java\com\hcl\hackathon\authservice\config\SecurityConfig.java
+F:\Workspaces\hcl_hackathon\credit-card-application\auth-service\src\main\java\com\hcl\hackathon\authservice\dto\AuthResponse.java
+F:\Workspaces\hcl_hackathon\credit-card-application\auth-service\src\main\java\com\hcl\hackathon\authservice\dto\LoginRequest.java
+F:\Workspaces\hcl_hackathon\credit-card-application\auth-service\src\main\java\com\hcl\hackathon\authservice\mapper\UserMapper.java
+F:\Workspaces\hcl_hackathon\credit-card-application\auth-service\src\main\java\com\hcl\hackathon\authservice\repository\UserRepository.java

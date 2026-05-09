@@ -1,1 +1,17 @@
+com\hcl\hackathon\authservice\dto\AuthResponse.class
+com\hcl\hackathon\authservice\entity\AuditEvent$AuditEventBuilder.class
+com\hcl\hackathon\authservice\controller\AuthController.class
 com\hcl\hackathon\authservice\AuthServiceApplication.class
+com\hcl\hackathon\authservice\service\AuditService.class
+com\hcl\hackathon\authservice\dto\AuthResponse$AuthResponseBuilder.class
+com\hcl\hackathon\authservice\mapper\UserMapper.class
+com\hcl\hackathon\authservice\repository\UserRepository.class
+com\hcl\hackathon\authservice\dto\SignupRequest.class
+com\hcl\hackathon\authservice\service\AuthService.class
+com\hcl\hackathon\authservice\repository\AuditEventRepository.class
+com\hcl\hackathon\authservice\dto\LoginRequest.class
+com\hcl\hackathon\authservice\entity\User$UserBuilder.class
+com\hcl\hackathon\authservice\entity\User.class
+com\hcl\hackathon\authservice\entity\AuditEvent.class
+com\hcl\hackathon\authservice\config\SecurityConfig.class
+com\hcl\hackathon\authservice\mapper\UserMapperImpl.class
